@@ -7,7 +7,7 @@ import type { NavbarItem } from '@/types'
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/button'
 
-const NavbarItem = ({ name, link }: NavbarItem) => {
+const NavbarItem = ({ name, link, handleClick }: NavbarItem) => {
   const pathName = usePathname()
   const isActive = pathName === link
   return (
@@ -19,6 +19,7 @@ const NavbarItem = ({ name, link }: NavbarItem) => {
           'w-full justify-start text-lg text-muted-foreground hover:text-foreground',
           isActive && 'text-foreground',
         )}
+        onClick={() => handleClick && handleClick()}
       >
         {name}
       </Link>

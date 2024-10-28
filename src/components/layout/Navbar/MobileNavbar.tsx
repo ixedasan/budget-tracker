@@ -36,7 +36,12 @@ const MobileNavbar = ({ items }: NavbarProps) => {
                 <Logo className="m-3" />
               </DialogTitle>
               {items.map((item, index) => (
-                <NavbarItem key={index} name={item.name} link={item.link} />
+                <NavbarItem
+                  key={index}
+                  name={item.name}
+                  link={item.link}
+                  handleClick={() => setIsOpen(prev => !prev)}
+                />
               ))}
             </SheetContent>
           </Sheet>
