@@ -9,8 +9,8 @@ interface LogoProps {
 
 const BudgetTrackerLogo = ({
   size = 40,
-  primaryColor = '#0ea5e9',
-  secondaryColor = '#0369a1',
+  primaryColor = '#000000',
+  secondaryColor = '#ffa500',
   accentColor = '#38bdf8',
   className = '',
   animated = true,
