@@ -7,7 +7,7 @@ interface LogoProps {
   animated?: boolean
 }
 
-const BudgetTrackerLogo = ({
+const Logo = ({
   size = 40,
   primaryColor = '#000000',
   secondaryColor = '#ffa500',
@@ -163,4 +163,4 @@ const BudgetTrackerLogo = ({
   )
 }
 
-export default BudgetTrackerLogo
+export default Logo
