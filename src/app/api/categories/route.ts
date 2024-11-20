@@ -11,8 +11,8 @@ export async function GET(req: Request) {
   const { searchParams } = new URL(req.url)
   const paramType = searchParams.get('type')
 
-  const valitation = z.enum(['expense', 'income'])
-  const queryParam = valitation.safeParse(paramType)
+  const validation = z.enum(['expense', 'income'])
+  const queryParam = validation.safeParse(paramType)
 
   if (!queryParam.success) {
     return Response.json(queryParam.error, { status: 400 })
