@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
+import dynamic from 'next/dynamic'
 import { TransactionType } from '@/types'
 import { Category } from '@prisma/client'
 import { useQuery } from '@tanstack/react-query'
@@ -19,9 +20,14 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
+import { Skeleton } from '@/components/ui/skeleton'
 
 import CategoryRow from './CategoryRow'
-import CreateCategoryDialog from './CreateCategoryDialog'
+
+const CreateCategoryDialog = dynamic(() => import('./CreateCategoryDialog'), {
+  ssr: false,
+  loading: () => <Skeleton className="h-9 w-52" />,
+})
 
 type Props = {
   type: TransactionType
