@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { TransactionType } from '@/types'
 import { Category } from '@prisma/client'
 import { useQuery } from '@tanstack/react-query'
@@ -25,11 +25,17 @@ import CreateCategoryDialog from './CreateCategoryDialog'
 
 type Props = {
   type: TransactionType
+  onChange: (category: string) => void
 }
 
-const CategorySelector = ({ type }: Props) => {
+const CategorySelector = ({ type, onChange }: Props) => {
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState('')
+
+  useEffect(() => {
+    if (!value) return
+    onChange(value)
+  }, [value, onChange])
 
   const categiriesQuery = useQuery({
     queryKey: ['categories', { type }],

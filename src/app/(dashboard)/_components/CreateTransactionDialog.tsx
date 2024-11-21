@@ -1,6 +1,6 @@
 'use client'
 
-import { ReactNode } from 'react'
+import { ReactNode, useCallback } from 'react'
 import {
   CreateTransactionSchema,
   CreateTransactionSchemaType,
@@ -43,13 +43,20 @@ const CreateTransactionDialog = ({ trigger, type }: Props) => {
     },
   })
 
+  const handleCategoryChange = useCallback(
+    (category: string) => {
+      form.setValue('category', category)
+    },
+    [form],
+  )
+
   return (
     <Dialog>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            New{' '}
+            New
             <span
               className={cn(
                 type === 'income'
@@ -80,7 +87,6 @@ const CreateTransactionDialog = ({ trigger, type }: Props) => {
                 </FormItem>
               )}
             />
-
             <FormField
               control={form.control}
               name="amount"
@@ -96,7 +102,6 @@ const CreateTransactionDialog = ({ trigger, type }: Props) => {
                 </FormItem>
               )}
             />
-
             <div className="flex items-center justify-between gap-2">
               <FormField
                 control={form.control}
@@ -105,7 +110,10 @@ const CreateTransactionDialog = ({ trigger, type }: Props) => {
                   <FormItem>
                     <FormLabel>Category</FormLabel>
                     <FormControl>
-                      <CategorySelector type={type}/>
+                      <CategorySelector
+                        type={type}
+                        onChange={handleCategoryChange}
+                      />
                     </FormControl>
                     <FormDescription>
                       Select transaction category
