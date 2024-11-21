@@ -12,6 +12,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Category } from '@prisma/client'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { CircleOff, Loader, PlusSquareIcon } from 'lucide-react'
+import { useTheme } from 'next-themes'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
@@ -43,7 +44,6 @@ import {
 } from '@/components/ui/popover'
 
 import { createCategory } from '../_actions/categories'
-import { useTheme } from "next-themes"
 
 type Props = {
   type: TransactionType
@@ -60,7 +60,8 @@ const CreateCategoryDialog = ({ type, onSuccesCallback }: Props) => {
     },
   })
 
-  const queryClient = useQueryClient() 
+  const queryClient = useQueryClient()
+  const theme = useTheme()
 
   const { mutate, isPending } = useMutation({
     mutationFn: createCategory,
@@ -181,6 +182,7 @@ const CreateCategoryDialog = ({ type, onSuccesCallback }: Props) => {
                       <PopoverContent className="w-full">
                         <Picker
                           data={data}
+                          theme={theme.resolvedTheme}
                           onEmojiSelect={(emoji: { native: string }) => {
                             field.onChange(emoji.native)
                           }}
