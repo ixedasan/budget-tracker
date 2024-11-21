@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { TransactionType } from '@/types'
 import { Category } from '@prisma/client'
 import { useQuery } from '@tanstack/react-query'
@@ -41,6 +41,14 @@ const CategorySelector = ({ type }: Props) => {
     (category: Category) => category.name === value,
   )
 
+  const succesCallback = useCallback(
+    (category: Category) => {
+      setValue(category.name)
+      setOpen(false)
+    },
+    [setValue, setOpen],
+  )
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -61,7 +69,7 @@ const CategorySelector = ({ type }: Props) => {
       <PopoverContent className="w-52 p-0">
         <Command onSubmit={e => e.preventDefault()}>
           <CommandInput placeholder="Search category..." />
-          <CreateCategoryDialog type={type} />
+          <CreateCategoryDialog type={type} onSuccesCallback={succesCallback} />
           <CommandEmpty>
             <p>Category not found</p>
             <p className="text-xs text-muted-foreground">

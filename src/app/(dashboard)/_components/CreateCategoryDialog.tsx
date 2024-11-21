@@ -43,12 +43,14 @@ import {
 } from '@/components/ui/popover'
 
 import { createCategory } from '../_actions/categories'
+import { useTheme } from "next-themes"
 
 type Props = {
   type: TransactionType
+  onSuccesCallback: (category: Category) => void
 }
 
-const CreateCategoryDialog = ({ type }: Props) => {
+const CreateCategoryDialog = ({ type, onSuccesCallback }: Props) => {
   const [open, setOpen] = useState(false)
 
   const form = useForm<CreateCategorySchemaType>({
@@ -58,7 +60,7 @@ const CreateCategoryDialog = ({ type }: Props) => {
     },
   })
 
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient() 
 
   const { mutate, isPending } = useMutation({
     mutationFn: createCategory,
@@ -71,6 +73,8 @@ const CreateCategoryDialog = ({ type }: Props) => {
       toast.success(`Category ${data.name} created successfully`, {
         id: 'create-category',
       })
+
+      onSuccesCallback(data)
 
       await queryClient.invalidateQueries({
         queryKey: ['categories'],
@@ -135,7 +139,7 @@ const CreateCategoryDialog = ({ type }: Props) => {
                 <FormItem>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input defaultValue={''} {...field} />
+                    <Input placeholder="" {...field} />
                   </FormControl>
                   <FormDescription>
                     This is the name of the category.
