@@ -1,14 +1,17 @@
 'use client'
 
-import { ReactNode, useCallback } from 'react'
+import { ReactNode, useCallback, useState } from 'react'
+import { dateToUTC } from '@/helpers/date-to-utc'
 import {
   CreateTransactionSchema,
   CreateTransactionSchemaType,
 } from '@/schema/transaction'
 import { TransactionType } from '@/types'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { CalendarIcon, Loader } from 'lucide-react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -38,6 +41,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 
+import { createTransaction } from '../_actions/transactions'
 import CategorySelector from './CategorySelector'
 
 type Props = {
@@ -46,6 +50,8 @@ type Props = {
 }
 
 const CreateTransactionDialog = ({ trigger, type }: Props) => {
+  const [open, setOpen] = useState(false)
+
   const form = useForm<CreateTransactionSchemaType>({
     resolver: zodResolver(CreateTransactionSchema),
     defaultValues: {
@@ -61,8 +67,41 @@ const CreateTransactionDialog = ({ trigger, type }: Props) => {
     [form],
   )
 
+  const queryClient = useQueryClient()
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: createTransaction,
+    onSuccess: () => {
+      toast.success('Transaction created successfully', {
+        id: 'create-transaction',
+      })
+      form.reset({
+        type,
+        description: '',
+        date: new Date(),
+        category: undefined,
+      })
+
+      queryClient.invalidateQueries({ queryKey: ['overview'] })
+
+      setOpen(prev => !prev)
+    },
+  })
+
+  const onSubmit = useCallback(
+    (data: CreateTransactionSchemaType) => {
+      toast.loading('Creating transaction...', { id: 'create-transaction' })
+
+      mutate({
+        ...data,
+        date: dateToUTC(data.date),
+      })
+    },
+    [mutate],
+  )
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -82,7 +121,7 @@ const CreateTransactionDialog = ({ trigger, type }: Props) => {
           </DialogTitle>
         </DialogHeader>
         <Form {...form}>
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
             <FormField
               control={form.control}
               name="description"
