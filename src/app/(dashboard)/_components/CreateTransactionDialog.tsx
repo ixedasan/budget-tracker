@@ -157,7 +157,7 @@ const CreateTransactionDialog = ({ trigger, type }: Props) => {
                 control={form.control}
                 name="category"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="flex flex-col">
                     <FormLabel>Category</FormLabel>
                     <FormControl>
                       <CategorySelector
@@ -175,7 +175,7 @@ const CreateTransactionDialog = ({ trigger, type }: Props) => {
                 control={form.control}
                 name="date"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="flex flex-col">
                     <FormLabel>Transaction date</FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
