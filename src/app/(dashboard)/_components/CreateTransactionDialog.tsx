@@ -42,7 +42,7 @@ import {
 } from '@/components/ui/popover'
 
 import { createTransaction } from '../_actions/transactions'
-import CategorySelector from './CategorySelector'
+import CategorySelector from '../../../components/features/categories/CategorySelector'
 
 type Props = {
   trigger: ReactNode
