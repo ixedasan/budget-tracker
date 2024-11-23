@@ -24,13 +24,10 @@ import { Skeleton } from '@/components/ui/skeleton'
 
 import CategoryRow from './CategoryRow'
 
-const CreateCategoryDialog = dynamic(
-  () => import('../../../app/(dashboard)/_components/CreateCategoryDialog'),
-  {
-    ssr: false,
-    loading: () => <Skeleton className="h-9 w-52" />,
-  },
-)
+const CreateCategoryDialog = dynamic(() => import('./CreateCategoryDialog'), {
+  ssr: false,
+  loading: () => <Skeleton className="h-9 w-52" />,
+})
 
 type Props = {
   type: TransactionType
