@@ -1,6 +1,7 @@
 'use client'
 
 import { ReactNode, useCallback, useState } from 'react'
+import { createTransaction } from '@/actions'
 import { dateToUTC } from '@/helpers/date-to-utc'
 import {
   CreateTransactionSchema,
@@ -40,9 +41,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-
-import { createTransaction } from '../_actions/transactions'
-import CategorySelector from '../../../components/features/categories/CategorySelector'
+import CategorySelector from '@/components/features/categories/CategorySelector'
 
 type Props = {
   trigger: ReactNode

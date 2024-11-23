@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useState } from 'react'
+import { createCategory } from '@/actions'
 import {
   CreateCategorySchema,
   CreateCategorySchemaType,
@@ -42,8 +43,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-
-import { createCategory } from '../_actions/categories'
 
 type Props = {
   type: TransactionType
