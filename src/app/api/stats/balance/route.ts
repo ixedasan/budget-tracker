@@ -19,13 +19,13 @@ export async function GET(req: Request) {
     })
   }
 
-  const balance = await getBalance(
+  const stats = await getBalance(
     user.id,
     queryParams.data.from,
     queryParams.data.to,
   )
 
-  return new Response(JSON.stringify(balance))
+  return new Response(JSON.stringify(stats))
 }
 
 export type getBalanceResponseType = Awaited<ReturnType<typeof getBalance>>
