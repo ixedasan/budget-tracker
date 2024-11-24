@@ -7,6 +7,7 @@ import { toast } from 'sonner'
 
 import { MAX_DATE_RANGE_DAYS } from '@/lib/constants'
 import { DateRangePicker } from '@/components/ui/date-range-picker'
+import CategoriesStats from '@/components/features/categories/CategoriesStats'
 import StatsCards from '@/components/features/stats/StatsCards'
 
 type Props = {
@@ -44,6 +45,11 @@ const Overview = ({ userSettings }: Props) => {
       </div>
       <div className="flex w-full flex-col gap-2 p-6">
         <StatsCards
+          userSettings={userSettings}
+          from={range.from}
+          to={range.to}
+        />
+        <CategoriesStats
           userSettings={userSettings}
           from={range.from}
           to={range.to}

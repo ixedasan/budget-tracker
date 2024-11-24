@@ -41,7 +41,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-import CategorySelector from '@/components/features/categories/CategorySelector'
+
+import CategorySelector from './CategorySelector'
 
 type Props = {
   trigger: ReactNode

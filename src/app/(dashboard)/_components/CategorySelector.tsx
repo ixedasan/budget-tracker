@@ -21,13 +21,15 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { Skeleton } from '@/components/ui/skeleton'
+import CategoryRow from '@/components/features/categories/CategoryRow'
 
-import CategoryRow from './CategoryRow'
-
-const CreateCategoryDialog = dynamic(() => import('./CreateCategoryDialog'), {
-  ssr: false,
-  loading: () => <Skeleton className="h-9 w-52" />,
-})
+const CreateCategoryDialog = dynamic(
+  () => import('@/components/features/categories/CreateCategoryDialog'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="h-9 w-52" />,
+  },
+)
 
 type Props = {
   type: TransactionType
