@@ -16,6 +16,8 @@ export async function GET(req: Request) {
   }
 }
 
+export type getPeriodsResponseType = Awaited<ReturnType<typeof getPeriods>>
+
 async function getPeriods(userId: string) {
   const DEFAULT_YEAR = new Date().getFullYear()
 
