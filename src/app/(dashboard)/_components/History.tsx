@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react'
 import { getFormatterCurrency } from '@/helpers/get-formatter-currency'
 import { UserSettings } from '@prisma/client'
 
-import { IntervalType, PeriodType } from '@/types/intervalTypes'
+import { IntervalType, PeriodType } from '@/types'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardHeader, CardTitle } from '@/components/ui/card'
 import HistoryPeriodSelector from "@/components/features/history/HistoryPeriodSelector"

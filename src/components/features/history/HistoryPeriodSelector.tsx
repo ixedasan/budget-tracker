@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 
-import { IntervalType, PeriodType } from '@/types/intervalTypes'
+import { IntervalType, PeriodType } from '@/types'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import SkeletonWrapper from '@/components/feedback/SkeletonWrapper'
 import { getPeriodsResponseType } from '@/app/api/history-periods/route'

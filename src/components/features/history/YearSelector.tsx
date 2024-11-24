@@ -1,4 +1,4 @@
-import { PeriodType } from '@/types/intervalTypes'
+import { PeriodType } from '@/types'
 import {
   Select,
   SelectContent,
