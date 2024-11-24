@@ -21,7 +21,7 @@ const page = async () => {
   return (
     <div className="h-full bg-background">
       <div className="border-b bg-card">
-        <div className="flex flex-wrap items-center justify-between gap-6 px-6 py-8">
+        <div className="container mx-auto flex flex-wrap items-center justify-between gap-6 py-8">
           <h1 className="text-2xl font-bold">Hello. {user.fullName}!</h1>
           <div className="flex items-center gap-4">
             <CreateTransactionDialog

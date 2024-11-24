@@ -18,7 +18,7 @@ const MobileNavbar = ({ items }: NavbarProps) => {
 
   return (
     <div className="block border-separate bg-background md:hidden">
-      <div className="flex items-center justify-between px-6">
+      <div className="container mx-auto flex items-center justify-between">
         <div className="flex h-20 min-h-14 items-center gap-x-4">
           <Logo />
         </div>

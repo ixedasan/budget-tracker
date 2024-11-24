@@ -22,7 +22,7 @@ const Overview = ({ userSettings }: Props) => {
 
   return (
     <>
-      <div className="flex flex-wrap items-center justify-between gap-2 p-6 py-6">
+      <div className="container mx-auto flex flex-wrap items-center justify-between gap-2 py-6">
         <h2 className="text-3xl font-bold">Overview</h2>
         <div className="flex items-center gap-3">
           <DateRangePicker
@@ -43,7 +43,7 @@ const Overview = ({ userSettings }: Props) => {
           />
         </div>
       </div>
-      <div className="flex w-full flex-col gap-2 p-6">
+      <div className="container mx-auto flex w-full flex-col gap-2">
         <StatsCards
           userSettings={userSettings}
           from={range.from}

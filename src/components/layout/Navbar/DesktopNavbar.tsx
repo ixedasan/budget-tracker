@@ -9,7 +9,7 @@ import NavbarItem from './NavbarItem'
 const DesktopNavbar = ({ items }: NavbarProps) => {
   return (
     <div className="hidden border-separate border-b bg-background md:block">
-      <div className="flex items-center justify-between px-6">
+      <div className="container mx-auto flex items-center justify-between">
         <Logo />
         <div className="flex h-20 min-h-14 items-center gap-x-4">
           <div className="flex h-full">
