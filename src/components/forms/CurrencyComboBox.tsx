@@ -1,6 +1,7 @@
 'use client'
 
 import * as React from 'react'
+import { UpdateUserCurrency } from '@/actions'
 import { UserSettings } from '@prisma/client'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { toast } from 'sonner'
@@ -22,7 +23,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-import { UpdateUserCurrency } from '@/app/configurations/_actions/userSettings'
 
 import SkeletonWrapper from '../feedback/SkeletonWrapper'
 
