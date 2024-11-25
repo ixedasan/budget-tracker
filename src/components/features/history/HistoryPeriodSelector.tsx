@@ -1,12 +1,12 @@
+import { IntervalType, PeriodType } from '@/types'
 import { useQuery } from '@tanstack/react-query'
 
-import { IntervalType, PeriodType } from '@/types'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import SkeletonWrapper from '@/components/feedback/SkeletonWrapper'
 import { getPeriodsResponseType } from '@/app/api/history-periods/route'
 
+import MonthSelector from './MonthSelector'
 import YearSelector from './YearSelector'
-import MonthSelector from "./MonthSelector"
 
 type Props = {
   interval: IntervalType
@@ -43,7 +43,10 @@ const HistoryPeriodSelector = ({
         </Tabs>
       </SkeletonWrapper>
       <div className="flex flex-wrap items-center gap-2">
-        <SkeletonWrapper isLoading={historyPeriodsQuery.isFetching}>
+        <SkeletonWrapper
+          isLoading={historyPeriodsQuery.isFetching}
+          fullWidth={false}
+        >
           <YearSelector
             period={period}
             setPeriod={setPeriod}
