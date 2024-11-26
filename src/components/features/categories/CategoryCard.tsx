@@ -3,6 +3,8 @@ import { TrashIcon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 
+import DeleteCategoryDialog from './DeleteCategoryDialog'
+
 type Props = {
   category: Category
 }
@@ -16,13 +18,18 @@ const CategoryCard = ({ category }: Props) => {
         </span>
         <p>{category.name}</p>
       </div>
-      <Button
-        className="flex w-full border-separate items-center gap-2 rounded-t-none bg-red-500/10 text-muted-foreground hover:bg-red-500/20"
-        variant={'secondary'}
-      >
-        <TrashIcon size={16} />
-        <span>Delete</span>
-      </Button>
+      <DeleteCategoryDialog
+        category={category}
+        trigger={
+          <Button
+            className="flex w-full border-separate items-center gap-2 rounded-t-none bg-red-500/10 text-muted-foreground hover:bg-red-500/20"
+            variant={'secondary'}
+          >
+            <TrashIcon size={16} />
+            <span>Delete</span>
+          </Button>
+        }
+      />
     </div>
   )
 }
