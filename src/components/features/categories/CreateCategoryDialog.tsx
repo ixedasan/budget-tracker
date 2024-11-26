@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useState } from 'react'
+import { ReactNode, useCallback, useState } from 'react'
 import { createCategory } from '@/actions'
 import {
   CreateCategorySchema,
@@ -47,9 +47,10 @@ import {
 type Props = {
   type: TransactionType
   onSuccesCallback: (category: Category) => void
+  trigger?: ReactNode
 }
 
-const CreateCategoryDialog = ({ type, onSuccesCallback }: Props) => {
+const CreateCategoryDialog = ({ type, onSuccesCallback, trigger }: Props) => {
   const [open, setOpen] = useState(false)
 
   const form = useForm<CreateCategorySchemaType>({
@@ -102,12 +103,16 @@ const CreateCategoryDialog = ({ type, onSuccesCallback }: Props) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button
-          variant={'ghost'}
-          className="flex border-separate items-center justify-start rounded-none p-3 text-muted-foreground"
-        >
-          <PlusSquareIcon className="mr-2" size={16} /> Create new
-        </Button>
+        {trigger ? (
+          trigger
+        ) : (
+          <Button
+            variant={'ghost'}
+            className="flex border-separate items-center justify-start rounded-none p-3 text-muted-foreground"
+          >
+            <PlusSquareIcon className="mr-2" size={16} /> Create new
+          </Button>
+        )}
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

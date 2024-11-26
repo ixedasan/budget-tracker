@@ -4,6 +4,8 @@ import { redirect } from 'next/navigation'
 import {
   CreateCategorySchema,
   CreateCategorySchemaType,
+  DeleteCategoryShema,
+  DeleteCategoryShemaType,
 } from '@/schema/categories'
 import { currentUser } from '@clerk/nextjs/server'
 
@@ -24,6 +26,24 @@ export async function createCategory(form: CreateCategorySchemaType) {
       name,
       icon,
       type,
+    },
+  })
+}
+
+export async function deleteCategory(form: DeleteCategoryShemaType) {
+  const parsedBody = DeleteCategoryShema.safeParse(form)
+  if (!parsedBody.success) throw new Error('bad request')
+
+  const user = await currentUser()
+  if (!user) redirect('/sign-in')
+
+  return await prisma.category.delete({
+    where: {
+      userId_name_type: {
+        userId: user.id,
+        name: parsedBody.data.name,
+        type: parsedBody.data.type,
+      },
     },
   })
 }
