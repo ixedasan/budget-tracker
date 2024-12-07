@@ -34,13 +34,14 @@ import { getTransactionsResponseType } from '@/app/api/transactions/route'
 import { DataTableColumnHeader } from './tables/ColumnHeader'
 import { DataTableViewOptions } from './tables/ColumnToggle'
 import { DataTableFacetedFilter } from './tables/Filters'
+import RowActions from "./tables/RowActions"
 
 type Props = {
   from: Date
   to: Date
 }
 
-type TransactiHistoryRow = getTransactionsResponseType[0]
+export type TransactiHistoryRow = getTransactionsResponseType[0]
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const emptyData: any[] = []
@@ -119,6 +120,11 @@ export const columns: ColumnDef<TransactiHistoryRow>[] = [
         {row.original.formattedAmount}
       </p>
     ),
+  },
+  {
+    id: 'actions',
+    enableHiding: false,
+    cell: ({ row }) => <RowActions transaction={row.original} />,
   },
 ]
 

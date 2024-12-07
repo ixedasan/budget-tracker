@@ -97,3 +97,75 @@ export async function createTransaction(form: CreateTransactionSchemaType) {
     }),
   ])
 }
+
+export async function deleteTransaction(id: string) {
+  const user = await currentUser()
+  if (!user) redirect(SIGN_IN_PATH)
+
+  const transaction = await prisma.transaction.findUnique({
+    where: {
+      userId: user.id,
+      id,
+    },
+  })
+
+  if (!transaction) {
+    throw new Error('bad request')
+  }
+
+  await prisma.$transaction([
+    prisma.transaction.delete({
+      where: {
+        id,
+        userId: user.id,
+      },
+    }),
+
+    prisma.monthlyHistory.update({
+      where: {
+        userId_day_month_year: {
+          userId: user.id,
+          day: transaction.date.getUTCDate(),
+          month: transaction.date.getUTCMonth(),
+          year: transaction.date.getUTCFullYear(),
+        },
+      },
+      data: {
+        ...(transaction.type === 'expense'
+          ? {
+              expense: {
+                decrement: transaction.amount,
+              },
+            }
+          : {
+              income: {
+                decrement: transaction.amount,
+              },
+            }),
+      },
+    }),
+
+    prisma.yearlyHistory.update({
+      where: {
+        userId_month_year: {
+          userId: user.id,
+          month: transaction.date.getUTCMonth(),
+          year: transaction.date.getUTCFullYear(),
+        },
+      },
+      data: {
+        ...(transaction.type === 'expense'
+          ? {
+              expense: {
+                decrement: transaction.amount,
+              },
+            }
+          : {
+              income: {
+                decrement: transaction.amount,
+              },
+            }),
+      },
+    }),
+  ])
+}
