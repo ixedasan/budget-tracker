@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
 import { currentUser } from '@clerk/nextjs/server'
 
+import { SIGN_IN_PATH } from '@/lib/constants'
 import prisma from '@/lib/db'
 import { Button } from '@/components/ui/button'
 
@@ -10,7 +11,7 @@ import Overview from './_components/Overview'
 
 const page = async () => {
   const user = await currentUser()
-  if (!user) redirect('/sign-in')
+  if (!user) redirect(SIGN_IN_PATH)
 
   const userSettings = await prisma.userSettings.findUnique({
     where: {

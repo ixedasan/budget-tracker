@@ -1,11 +1,12 @@
 import { redirect } from 'next/navigation'
 import { currentUser } from '@clerk/nextjs/server'
 
+import { SIGN_IN_PATH } from '@/lib/constants'
 import prisma from '@/lib/db'
 
 export async function GET(req: Request) {
   const user = await currentUser()
-  if (!user) redirect('/sign-in')
+  if (!user) redirect(SIGN_IN_PATH)
 
   try {
     const periods = await getPeriods(user.id)

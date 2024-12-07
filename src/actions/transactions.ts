@@ -7,6 +7,7 @@ import {
 } from '@/schema/transaction'
 import { currentUser } from '@clerk/nextjs/server'
 
+import { SIGN_IN_PATH } from '@/lib/constants'
 import prisma from '@/lib/db'
 
 export async function createTransaction(form: CreateTransactionSchemaType) {
@@ -16,7 +17,7 @@ export async function createTransaction(form: CreateTransactionSchemaType) {
   }
 
   const user = await currentUser()
-  if (!user) redirect('/sign-in')
+  if (!user) redirect(SIGN_IN_PATH)
 
   const { amount, category, date, description, type } = parsedBody.data
   const categoryRow = await prisma.category.findFirst({

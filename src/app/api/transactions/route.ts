@@ -3,11 +3,12 @@ import { getFormatterCurrency } from '@/helpers/get-formatter-currency'
 import { OverviewQuerySchema } from '@/schema/overview'
 import { currentUser } from '@clerk/nextjs/server'
 
+import { SIGN_IN_PATH } from '@/lib/constants'
 import prisma from '@/lib/db'
 
 export async function GET(req: Request) {
   const user = await currentUser()
-  if (!user) redirect('sign-in')
+  if (!user) redirect(SIGN_IN_PATH)
 
   const { searchParams } = new URL(req.url)
   const from = searchParams.get('from')
