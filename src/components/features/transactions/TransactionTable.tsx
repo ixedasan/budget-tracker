@@ -14,6 +14,9 @@ import {
   SortingState,
   useReactTable,
 } from '@tanstack/react-table'
+import { download, generateCsv, mkConfig } from 'export-to-csv'
+import { DownloadIcon } from 'lucide-react'
+import { toast } from 'sonner'
 
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -119,6 +122,12 @@ export const columns: ColumnDef<TransactiHistoryRow>[] = [
   },
 ]
 
+const csvConfig = mkConfig({
+  fieldSeparator: ',',
+  decimalSeparator: '.',
+  useKeysAsHeaders: true,
+})
+
 const TransactionTable = ({ from, to }: Props) => {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
@@ -130,6 +139,16 @@ const TransactionTable = ({ from, to }: Props) => {
         `/api/transactions?from=${dateToUTC(from)}&to=${dateToUTC(to)}`,
       ).then(res => res.json()),
   })
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleExportCSV = (data: any[]) => {
+    if (!data.length) {
+      return toast.error('No data for the selected period')
+    }
+
+    const csv = generateCsv(csvConfig)(data)
+    download(csvConfig)(csv)
+  }
 
   const table = useReactTable({
     data: historyQuery.data || emptyData,
@@ -182,6 +201,26 @@ const TransactionTable = ({ from, to }: Props) => {
           )}
         </div>
         <div className="flex flex-wrap gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            className="ml-auto h-8 lg:flex"
+            onClick={() => {
+              const data = table.getRowModel().rows.map(row => ({
+                category: row.original.category,
+                categoryIcon: row.original.categoryIcon,
+                description: row.original.description,
+                type: row.original.type,
+                amount: row.original.amount,
+                formattedAmount: row.original.formattedAmount,
+                date: row.original.date,
+              }))
+              handleExportCSV(data)
+            }}
+          >
+            <DownloadIcon className="hr-2 h-4 w-4" />
+            Export CSV
+          </Button>
           <DataTableViewOptions table={table} />
         </div>
       </div>
