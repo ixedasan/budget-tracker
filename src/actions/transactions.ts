@@ -7,6 +7,7 @@ import {
 } from '@/schema/transaction'
 import { currentUser } from '@clerk/nextjs/server'
 
+import { SIGN_IN_PATH } from '@/lib/constants'
 import prisma from '@/lib/db'
 
 export async function createTransaction(form: CreateTransactionSchemaType) {
@@ -16,7 +17,7 @@ export async function createTransaction(form: CreateTransactionSchemaType) {
   }
 
   const user = await currentUser()
-  if (!user) redirect('/sign-in')
+  if (!user) redirect(SIGN_IN_PATH)
 
   const { amount, category, date, description, type } = parsedBody.data
   const categoryRow = await prisma.category.findFirst({
@@ -92,6 +93,78 @@ export async function createTransaction(form: CreateTransactionSchemaType) {
         income: {
           increment: type === 'income' ? amount : 0,
         },
+      },
+    }),
+  ])
+}
+
+export async function deleteTransaction(id: string) {
+  const user = await currentUser()
+  if (!user) redirect(SIGN_IN_PATH)
+
+  const transaction = await prisma.transaction.findUnique({
+    where: {
+      userId: user.id,
+      id,
+    },
+  })
+
+  if (!transaction) {
+    throw new Error('bad request')
+  }
+
+  await prisma.$transaction([
+    prisma.transaction.delete({
+      where: {
+        id,
+        userId: user.id,
+      },
+    }),
+
+    prisma.monthlyHistory.update({
+      where: {
+        userId_day_month_year: {
+          userId: user.id,
+          day: transaction.date.getUTCDate(),
+          month: transaction.date.getUTCMonth(),
+          year: transaction.date.getUTCFullYear(),
+        },
+      },
+      data: {
+        ...(transaction.type === 'expense'
+          ? {
+              expense: {
+                decrement: transaction.amount,
+              },
+            }
+          : {
+              income: {
+                decrement: transaction.amount,
+              },
+            }),
+      },
+    }),
+
+    prisma.yearlyHistory.update({
+      where: {
+        userId_month_year: {
+          userId: user.id,
+          month: transaction.date.getUTCMonth(),
+          year: transaction.date.getUTCFullYear(),
+        },
+      },
+      data: {
+        ...(transaction.type === 'expense'
+          ? {
+              expense: {
+                decrement: transaction.amount,
+              },
+            }
+          : {
+              income: {
+                decrement: transaction.amount,
+              },
+            }),
       },
     }),
   ])

@@ -3,10 +3,11 @@ import { currentUser } from '@clerk/nextjs/server'
 import { z } from 'zod'
 
 import prisma from '@/lib/db'
+import { SIGN_IN_PATH } from "@/lib/constants"
 
 export async function GET(req: Request) {
   const user = await currentUser()
-  if (!user) redirect('/sign-in')
+  if (!user) redirect(SIGN_IN_PATH)
 
   const { searchParams } = new URL(req.url)
   const paramType = searchParams.get('type')

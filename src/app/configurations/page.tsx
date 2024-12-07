@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { currentUser } from '@clerk/nextjs/server'
 
+import { SIGN_IN_PATH } from '@/lib/constants'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -16,7 +17,7 @@ import { CurrencyComboBox } from '@/components/forms/CurrencyComboBox'
 
 const page = async () => {
   const user = await currentUser()
-  if (!user) redirect('/sign-in')
+  if (!user) redirect(SIGN_IN_PATH)
 
   return (
     <div className="container flex max-w-2xl flex-col items-center justify-between gap-4">
