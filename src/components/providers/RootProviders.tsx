@@ -3,7 +3,8 @@
 import React, { ReactNode } from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { ThemeProvider } from 'next-themes'
+
+import { ThemeProvider } from './ThemeProvider'
 
 const RootProviders = ({ children }: { children: ReactNode }) => {
   const [queryClient] = React.useState(() => new QueryClient())
@@ -12,7 +13,7 @@ const RootProviders = ({ children }: { children: ReactNode }) => {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider
         attribute="class"
-        defaultTheme="light"
+        defaultTheme="system"
         enableSystem
         disableTransitionOnChange
       >
